@@ -1,8 +1,18 @@
 <script setup>
-import Edit from './components/Edit.vue'
+import Edit from './components/Edit.vue';
+import { onMounted, ref } from 'vue';
+import axios from 'axios';
 
 // TODO: 列表渲染
+const list = ref([]);
+const getList = async () => {
+  // 接口调用
+  const res = await axios.get('/list');
+  // 交给 list
+  list.value = res.data;
+}
 
+onMounted(() => { getList() })
 
 // TODO: 删除功能
 
@@ -13,11 +23,7 @@ import Edit from './components/Edit.vue'
 
 <template>
   <div class="app">
-    <el-table :data="[{
-      id: 1,
-      name: 'jack',
-      place: 'none'
-    }]">
+    <el-table :data=list>
       <el-table-column label="ID" prop="id"></el-table-column>
       <el-table-column label="姓名" prop="name" width="150"></el-table-column>
       <el-table-column label="籍贯" prop="place"></el-table-column>
